@@ -9,15 +9,26 @@
         }
         .title {
             text-align: center;
+            font-family: sans-serif;
             margin-bottom: 20px;
         }
-        .logout-btn {
-            float: right;
-            margin-bottom: 10px;
+        .btn {
+            width: 10rem;
+            height: 2rem;
+            border-radius: 20px;
+            border: 0;
+            background-color: #902fcf;
+            color: white;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }.btn:hover {
+            transform: scale(1.05);
         }
         .card {
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
             margin-bottom: 20px;
             cursor: pointer;
@@ -35,23 +46,37 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Histórico de Filmes Vistos</h1>
-            {% if user.is_authenticated %}
-                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
-            {% endif %}
-        <a href="{% url 'list_videos' %}">Home</a>
+        <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; cursor: pointer;" onclick="window.location='{% url 'list_videos' %}'">
+                <img src="/media/logo.png" style="width: 5rem; height: 5rem; object-fit: contain;" alt=""/>
+                <h1 class="title">Vasco Flix</h1>
+            </div>
+        
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {% if user.is_authenticated %}
+                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn" style="font-family: sans-serif;">Logout</button>
+                    </form>
+                {% endif %}
+                <a class="btn" href="{% url 'list_videos' %}" style="font-family: sans-serif; display: flex; align-items: center; justify-content: center;">Home</a>
+            </div>
+        </div>
     
-        <div class="videos" style="display: flex; width: 100%; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2rem; ">
+        <div style="display: flex; width: 100%; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2rem;" >
+            <h1 class="title">Histórico de Filmes Vistos</h1>
+        </div>
+        
+        <div style="display: flex; width: 100%; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 2rem;" >
             {% for history_entry in history %}
-                <div class="card" onclick="window.location='{% url 'view_movie' history_entry.video.id %}'" style="width: 30rem; display: flex; height: 20rem; flex-direction: column; align-items: center;">
+                <div class="card" onclick="window.location='{% url 'view_movie' history_entry.video.id %}'" style="width: 30rem; display: flex; height: 25rem; flex-direction: column; align-items: center;">
                     <img style="width: 25rem; height: 15rem; object-fit: contain;" src="/media/{{ history_entry.video.image }}" alt="{{ history_entry.video.title }}">
-                    <h2>{{ history_entry.video.title }} - {{ history_entry.date_viewed }}</h2>
+                    <h2 style="font-family: sans-serif; margin: 0.5rem;">{{ history_entry.video.title }}</h2>
+                    <p style="font-family: sans-serif; margin: 0.25rem;">Data Visualização: {{ history_entry.date_viewed }}</p>
                 </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </body>
 </html>
+
