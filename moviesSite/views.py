@@ -24,7 +24,7 @@ def list_videos(request):
 
 def custom_login(request):
     if request.user.is_authenticated:
-        print("Usuário já autenticado:", request.user)
+        print("Utilizador já autenticado:", request.user)
         return redirect('list_videos')
 
     if request.method == 'POST':
